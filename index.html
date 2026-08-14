@@ -19,23 +19,29 @@
             overflow: hidden;
             background-color: #f5ebe6;
             font-family: 'Book Antiqua', Georgia, serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* === CONTENEDOR DEL SOBRE - PANTALLA COMPLETA === */
+        #contenedor-sobre {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            cursor: pointer;
+            perspective: 1200px;
+            margin: 0;
+            padding: 0;
+            background-color: #f5ebe6;
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
         
-        /* === CONTENEDOR DEL SOBRE === */
-        #contenedor-sobre {
-            position: relative;
-            width: 90%;
-            max-width: 500px;
-            aspect-ratio: 3 / 4;
-            cursor: pointer;
-            perspective: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* === SOBRE BASE (FONDO) === */
+        /* === SOBRE BASE - SIN DEFORMAR Y SIN MÁRGENES === */
         #sobre-base {
             position: absolute;
             top: 0;
@@ -43,9 +49,7 @@
             width: 100%;
             height: 100%;
             background: url('sobre-abierto-1.png') no-repeat center center;
-            background-size: 100% 100%;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background-size: contain;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -59,20 +63,22 @@
             text-align: center;
             color: #680700;
             padding: 20px;
-            max-width: 85%;
-            background: rgba(255, 255, 255, 0.7);
+            max-width: 80%;
+            background: rgba(255, 255, 255, 0.75);
             border-radius: 12px;
             backdrop-filter: blur(4px);
+            position: relative;
+            z-index: 2;
         }
         
         #contenido-invitacion h2 {
-            font-size: 20px;
+            font-size: clamp(18px, 4vw, 28px);
             margin-bottom: 10px;
             letter-spacing: 1px;
         }
         
         #contenido-invitacion p {
-            font-size: 15px;
+            font-size: clamp(14px, 2.5vw, 20px);
             font-style: italic;
             line-height: 1.6;
         }
@@ -85,12 +91,11 @@
             width: 100%;
             height: 100%;
             background: url('sobre-abierto-2.png') no-repeat center top;
-            background-size: 100% 100%;
+            background-size: contain;
             transform-origin: top center;
             transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 10;
             pointer-events: none;
-            border-radius: 12px;
         }
         
         /* === ESTADO ABIERTO: LA SOLAPA SE LEVANTA === */
@@ -106,7 +111,7 @@
         /* === FLECHA Y TEXTO "TOCA PARA ABRIR" === */
         .retraso-aparicion {
             position: absolute;
-            bottom: 15%;
+            bottom: 12%;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -121,17 +126,18 @@
         
         .retraso-aparicion span {
             color: white;
-            font-size: 13px;
+            font-size: clamp(11px, 1.8vw, 16px);
             font-family: sans-serif;
             letter-spacing: 2px;
             text-transform: uppercase;
             margin-bottom: 4px;
             filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
+            text-align: center;
         }
         
         .retraso-aparicion lottie-player {
-            width: 70px;
-            height: 70px;
+            width: clamp(55px, 10vw, 90px);
+            height: clamp(55px, 10vw, 90px);
             filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.7));
         }
         
@@ -162,31 +168,6 @@
             opacity: 0;
             transition: opacity 0.8s ease;
             pointer-events: none;
-        }
-        
-        /* === RESPONSIVE === */
-        @media (max-width: 480px) {
-            #contenedor-sobre {
-                width: 95%;
-                max-width: 400px;
-            }
-            
-            .retraso-aparicion span {
-                font-size: 11px;
-            }
-            
-            .retraso-aparicion lottie-player {
-                width: 55px;
-                height: 55px;
-            }
-            
-            #contenido-invitacion h2 {
-                font-size: 17px;
-            }
-            
-            #contenido-invitacion p {
-                font-size: 13px;
-            }
         }
     </style>
 </head>
@@ -242,12 +223,7 @@
             }, 2500);
         }
         
-        // Mostrar en consola que todo funciona
         console.log('✅ Sobre listo - Haz clic para abrirlo');
-        console.log('📁 Asegúrate de tener estos archivos en la misma carpeta:');
-        console.log('   - sobre-abierto-1.png');
-        console.log('   - sobre-abierto-2.png');
-        console.log('   - Arrow.json');
     </script>
 
 </body>

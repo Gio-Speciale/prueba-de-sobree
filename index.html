@@ -47,38 +47,11 @@
             width: 100%;
             height: 100%;
             background: url('sobre-abierto-1.png') no-repeat center center;
-            background-size: cover;  /* ← CAMBIO CLAVE: cubre todo sin espacios */
+            background-size: cover;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1;
-        }
-        
-        /* === CONTENIDO DENTRO DEL SOBRE === */
-        #contenido-invitacion {
-            opacity: 0;
-            transition: opacity 0.8s ease 0.6s;
-            text-align: center;
-            color: #680700;
-            padding: 20px;
-            max-width: 80%;
-            background: rgba(255, 255, 255, 0.75);
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-            position: relative;
-            z-index: 2;
-        }
-        
-        #contenido-invitacion h2 {
-            font-size: clamp(18px, 4vw, 28px);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-        
-        #contenido-invitacion p {
-            font-size: clamp(14px, 2.5vw, 20px);
-            font-style: italic;
-            line-height: 1.6;
         }
         
         /* === SOLAPA SUPERIOR - BORDE A BORDE === */
@@ -89,7 +62,7 @@
             width: 100%;
             height: 100%;
             background: url('sobre-abierto-2.png') no-repeat center top;
-            background-size: cover;  /* ← CAMBIO CLAVE: cubre todo sin espacios */
+            background-size: cover;
             transform-origin: top center;
             transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 10;
@@ -99,11 +72,6 @@
         /* === ESTADO ABIERTO: LA SOLAPA SE LEVANTA === */
         #contenedor-sobre.abierto #solapa-superior {
             transform: rotateX(-180deg);
-        }
-        
-        /* === MOSTRAR CONTENIDO AL ABRIR === */
-        #contenedor-sobre.abierto #contenido-invitacion {
-            opacity: 1;
         }
         
         /* === FLECHA Y TEXTO "TOCA PARA ABRIR" === */
@@ -174,236 +142,9 @@
     <!-- ===== SOBRE CON EFECTO DE APERTURA ===== -->
     <div id="contenedor-sobre" onclick="abrirSobre()">
         
-        <!-- Sobre base (fondo) -->
+        <!-- Sobre base (fondo) - SIN TEXTO DENTRO -->
         <div id="sobre-base">
-  
-        </div>
-        
-        <!-- Solapa superior -->
-        <div id="solapa-superior"></div>
-        
-        <!-- Flecha "TOCA PARA ABRIR" (aparece después de 7 segundos) -->
-        <div class="retraso-aparicion">
-            <span>✨ TOCA PARA ABRIR ✨</span>
-            <lottie-player 
-                src="Arrow.json" 
-                background="transparent" 
-                speed="1" 
-                loop 
-                autoplay>
-            </lottie-player>
-        </div>
-        
-    </div>
-
-    <!-- ===== JAVASCRIPT ===== -->
-    <script>
-        function abrirSobre() {
-            const contenedor = document.getElementById('contenedor-sobre');
-            
-            // Si ya está abierto u oculto, no hacer nada
-            if (contenedor.classList.contains('abierto') || contenedor.classList.contains('oculto')) {
-                return;
-            }
-            
-            // Agregar clase "abierto" para activar la animación
-            contenedor.classList.add('abierto');
-            
-            // Después de 2.5 segundos, ocultar el sobre completamente
-            setTimeout(() => {
-                contenedor.classList.add('oculto');
-            }, 2500);
-        }
-        
-        console.log('✅ Sobre listo - Haz clic para abrirlo');
-    </script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Prueba - Apertura de Sobre</title>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <style>
-        /* === RESET Y CONFIGURACIÓN === */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            background-color: #f5ebe6;
-            font-family: 'Book Antiqua', Georgia, serif;
-        }
-        
-        /* === CONTENEDOR DEL SOBRE - PANTALLA COMPLETA === */
-        #contenedor-sobre {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            cursor: pointer;
-            perspective: 1200px;
-            margin: 0;
-            padding: 0;
-            background-color: #f5ebe6;
-            overflow: hidden;
-            z-index: 1000;
-        }
-        
-        /* === SOBRE BASE - BORDE A BORDE === */
-        #sobre-base {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('sobre-abierto-1.png') no-repeat center center;
-            background-size: cover;  /* ← CAMBIO CLAVE: cubre todo sin espacios */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-        }
-        
-        /* === CONTENIDO DENTRO DEL SOBRE === */
-        #contenido-invitacion {
-            opacity: 0;
-            transition: opacity 0.8s ease 0.6s;
-            text-align: center;
-            color: #680700;
-            padding: 20px;
-            max-width: 80%;
-            background: rgba(255, 255, 255, 0.75);
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-            position: relative;
-            z-index: 2;
-        }
-        
-        #contenido-invitacion h2 {
-            font-size: clamp(18px, 4vw, 28px);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-        
-        #contenido-invitacion p {
-            font-size: clamp(14px, 2.5vw, 20px);
-            font-style: italic;
-            line-height: 1.6;
-        }
-        
-        /* === SOLAPA SUPERIOR - BORDE A BORDE === */
-        #solapa-superior {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('sobre-abierto-2.png') no-repeat center top;
-            background-size: cover;  /* ← CAMBIO CLAVE: cubre todo sin espacios */
-            transform-origin: top center;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
-            pointer-events: none;
-        }
-        
-        /* === ESTADO ABIERTO: LA SOLAPA SE LEVANTA === */
-        #contenedor-sobre.abierto #solapa-superior {
-            transform: rotateX(-180deg);
-        }
-        
-        /* === MOSTRAR CONTENIDO AL ABRIR === */
-        #contenedor-sobre.abierto #contenido-invitacion {
-            opacity: 1;
-        }
-        
-        /* === FLECHA Y TEXTO "TOCA PARA ABRIR" === */
-        .retraso-aparicion {
-            position: absolute;
-            bottom: 12%;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            pointer-events: none;
-            z-index: 20;
-            opacity: 0;
-            animation: aparecer 0.6s ease-in forwards;
-            animation-delay: 7s;
-        }
-        
-        .retraso-aparicion span {
-            color: white;
-            font-size: clamp(11px, 1.8vw, 16px);
-            font-family: sans-serif;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
-            text-align: center;
-        }
-        
-        .retraso-aparicion lottie-player {
-            width: clamp(55px, 10vw, 90px);
-            height: clamp(55px, 10vw, 90px);
-            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.7));
-        }
-        
-        /* === ANIMACIONES === */
-        @keyframes aparecer {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-        
-        /* === EFECTO DE PULSO EN EL SOBRE (MIENTRAS ESTÁ CERRADO) === */
-        @keyframes pulso {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.01); }
-        }
-        
-        #contenedor-sobre:not(.abierto) {
-            animation: pulso 3s infinite ease-in-out;
-        }
-        
-        /* === ESTADO OCULTO AL FINAL === */
-        #contenedor-sobre.oculto {
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            pointer-events: none;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- ===== SOBRE CON EFECTO DE APERTURA ===== -->
-    <div id="contenedor-sobre" onclick="abrirSobre()">
-        
-        <!-- Sobre base (fondo) -->
-        <div id="sobre-base">
-            <div id="contenido-invitacion">
-                <h2>💍 ¡Te esperamos!</h2>
-                <p>
-                    Con mucha alegría te invitamos a celebrar<br>
-                    nuestro amor el día de nuestra boda.
-                </p>
-            </div>
+            <!-- El contenido se ha eliminado -->
         </div>
         
         <!-- Solapa superior -->

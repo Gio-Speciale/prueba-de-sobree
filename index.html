@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Prueba - Apertura de Sobre</title>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        /* === RESET Y CONFIGURACIÓN === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f5ebe6;
+            font-family: 'Book Antiqua', Georgia, serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* === CONTENEDOR DEL SOBRE === */
+        #contenedor-sobre {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            aspect-ratio: 3 / 4;
+            cursor: pointer;
+            perspective: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* === SOBRE BASE (FONDO) === */
+        #sobre-base {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('sobre-abierto-1.png') no-repeat center center;
+            background-size: 100% 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+        
+        /* === CONTENIDO DENTRO DEL SOBRE === */
+        #contenido-invitacion {
+            opacity: 0;
+            transition: opacity 0.8s ease 0.6s;
+            text-align: center;
+            color: #680700;
+            padding: 20px;
+            max-width: 85%;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+        }
+        
+        #contenido-invitacion h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        #contenido-invitacion p {
+            font-size: 15px;
+            font-style: italic;
+            line-height: 1.6;
+        }
+        
+        /* === SOLAPA SUPERIOR === */
+        #solapa-superior {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('sobre-abierto-2.png') no-repeat center top;
+            background-size: 100% 100%;
+            transform-origin: top center;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            pointer-events: none;
+            border-radius: 12px;
+        }
+        
+        /* === ESTADO ABIERTO: LA SOLAPA SE LEVANTA === */
+        #contenedor-sobre.abierto #solapa-superior {
+            transform: rotateX(-180deg);
+        }
+        
+        /* === MOSTRAR CONTENIDO AL ABRIR === */
+        #contenedor-sobre.abierto #contenido-invitacion {
+            opacity: 1;
+        }
+        
+        /* === FLECHA Y TEXTO "TOCA PARA ABRIR" === */
+        .retraso-aparicion {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+            z-index: 20;
+            opacity: 0;
+            animation: aparecer 0.6s ease-in forwards;
+            animation-delay: 7s;
+        }
+        
+        .retraso-aparicion span {
+            color: white;
+            font-size: 13px;
+            font-family: sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
+        }
+        
+        .retraso-aparicion lottie-player {
+            width: 70px;
+            height: 70px;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.7));
+        }
+        
+        /* === ANIMACIONES === */
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        
+        /* === EFECTO DE PULSO EN EL SOBRE (MIENTRAS ESTÁ CERRADO) === */
+        @keyframes pulso {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+        
+        #contenedor-sobre:not(.abierto) {
+            animation: pulso 3s infinite ease-in-out;
+        }
+        
+        /* === ESTADO OCULTO AL FINAL === */
+        #contenedor-sobre.oculto {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+        }
+        
+        /* === RESPONSIVE === */
+        @media (max-width: 480px) {
+            #contenedor-sobre {
+                width: 95%;
+                max-width: 400px;
+            }
+            
+            .retraso-aparicion span {
+                font-size: 11px;
+            }
+            
+            .retraso-aparicion lottie-player {
+                width: 55px;
+                height: 55px;
+            }
+            
+            #contenido-invitacion h2 {
+                font-size: 17px;
+            }
+            
+            #contenido-invitacion p {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SOBRE CON EFECTO DE APERTURA ===== -->
+    <div id="contenedor-sobre" onclick="abrirSobre()">
+        
+        <!-- Sobre base (fondo) -->
+        <div id="sobre-base">
+            <div id="contenido-invitacion">
+                <h2>💍 ¡Te esperamos!</h2>
+                <p>
+                    Con mucha alegría te invitamos a celebrar<br>
+                    nuestro amor el día de nuestra boda.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Solapa superior -->
+        <div id="solapa-superior"></div>
+        
+        <!-- Flecha "TOCA PARA ABRIR" (aparece después de 7 segundos) -->
+        <div class="retraso-aparicion">
+            <span>✨ TOCA PARA ABRIR ✨</span>
+            <lottie-player 
+                src="Arrow.json" 
+                background="transparent" 
+                speed="1" 
+                loop 
+                autoplay>
+            </lottie-player>
+        </div>
+        
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        function abrirSobre() {
+            const contenedor = document.getElementById('contenedor-sobre');
+            
+            // Si ya está abierto u oculto, no hacer nada
+            if (contenedor.classList.contains('abierto') || contenedor.classList.contains('oculto')) {
+                return;
+            }
+            
+            // Agregar clase "abierto" para activar la animación
+            contenedor.classList.add('abierto');
+            
+            // Después de 2.5 segundos, ocultar el sobre completamente
+            setTimeout(() => {
+                contenedor.classList.add('oculto');
+            }, 2500);
+        }
+        
+        // Mostrar en consola que todo funciona
+        console.log('✅ Sobre listo - Haz clic para abrirlo');
+        console.log('📁 Asegúrate de tener estos archivos en la misma carpeta:');
+        console.log('   - sobre-abierto-1.png');
+        console.log('   - sobre-abierto-2.png');
+        console.log('   - Arrow.json');
+    </script>
+
+</body>
+</html>

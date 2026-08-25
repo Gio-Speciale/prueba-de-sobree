@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Prueba - Apertura de Sobre</title>
+
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
     <style>
         /* === RESET Y CONFIGURACIÓN === */
         * {
@@ -12,7 +14,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         html, body {
             width: 100%;
             height: 100%;
@@ -22,7 +24,7 @@
             background-color: #f5ebe6;
             font-family: 'Book Antiqua', Georgia, serif;
         }
-        
+
         /* === CONTENEDOR DEL SOBRE - PANTALLA COMPLETA === */
         #contenedor-sobre {
             position: fixed;
@@ -32,6 +34,7 @@
             height: 100vh;
             cursor: pointer;
             perspective: 1200px;
+            perspective-origin: center center;
             margin: 0;
             padding: 0;
             background-color: #f5ebe6;
@@ -39,7 +42,7 @@
             z-index: 1000;
             transition: opacity 0.8s ease;
         }
-        
+
         /* === SOBRE BASE - BORDE A BORDE === */
         #sobre-base {
             position: absolute;
@@ -54,27 +57,38 @@
             justify-content: center;
             z-index: 1;
         }
-        
-        /* === SOLAPA SUPERIOR - BORDE A BORDE === */
+
+        /* === SOLAPA SUPERIOR === */
         #solapa-superior {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+
             background: url('sobre-abierto-2.png') no-repeat center top;
             background-size: cover;
+
+            /* Punto desde donde gira la solapa */
             transform-origin: top center;
+
+            /* Preparación para animación 3D */
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+
+            /* Animación de apertura */
             transition: transform 2.2s cubic-bezier(0.4, 0, 0.2, 1);
+
             z-index: 10;
             pointer-events: none;
         }
-        
-        /* === ESTADO ABIERTO: LA SOLAPA SE LEVANTA === */
+
+        /* === ESTADO ABIERTO: LA SOLAPA SE ABRE HACIA AFUERA === */
         #contenedor-sobre.abierto #solapa-superior {
-            transform: rotateX(-180deg);
+            transform: rotateX(180deg);
         }
-        
+
         /* === FLECHA Y TEXTO "TOCA PARA ABRIR" === */
         .retraso-aparicion {
             position: absolute;
@@ -90,7 +104,7 @@
             animation: aparecer 0.6s ease-in forwards;
             animation-delay: 7s;
         }
-        
+
         .retraso-aparicion span {
             color: white;
             font-size: clamp(11px, 1.8vw, 16px);
@@ -101,72 +115,87 @@
             filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
             text-align: center;
         }
-        
+
         .retraso-aparicion lottie-player {
             width: clamp(55px, 10vw, 90px);
             height: clamp(55px, 10vw, 90px);
             filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.7));
         }
-        
-        /* === ANIMACIONES === */
+
+        /* === ANIMACIÓN DE APARICIÓN === */
         @keyframes aparecer {
             from {
                 opacity: 0;
                 transform: translateX(-50%) translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(-50%) translateY(0);
             }
         }
-        
-        /* === EFECTO DE PULSO EN EL SOBRE (MIENTRAS ESTÁ CERRADO) === */
+
+        /* === EFECTO DE PULSO EN EL SOBRE === */
         @keyframes pulso {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.01); }
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.01);
+            }
         }
-        
+
         #contenedor-sobre:not(.abierto) {
             animation: pulso 3s infinite ease-in-out;
         }
-        
+
         /* === ESTADO OCULTO AL FINAL === */
         #contenedor-sobre.oculto {
             opacity: 0;
             pointer-events: none;
         }
-        
-        /* === CONTENIDO DE RESPALDO (aparece cuando el sobre se oculta) === */
+
+        /* === CONTENIDO DE RESPALDO === */
         #contenido-respaldo {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
+
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #f5ebe6 0%, #e8d5cd 100%);
+
+            background: linear-gradient(
+                135deg,
+                #f5ebe6 0%,
+                #e8d5cd 100%
+            );
+
             z-index: 500;
+
             opacity: 0;
             transition: opacity 1.2s ease;
+
             padding: 30px;
             text-align: center;
             color: #680700;
         }
-        
+
         #contenido-respaldo.visible {
             opacity: 1;
         }
-        
+
         #contenido-respaldo h1 {
             font-size: clamp(28px, 6vw, 48px);
             margin-bottom: 20px;
             font-family: 'Book Antiqua', Georgia, serif;
             letter-spacing: 2px;
         }
-        
+
         #contenido-respaldo p {
             font-size: clamp(16px, 3vw, 24px);
             font-style: italic;
@@ -174,74 +203,105 @@
             max-width: 600px;
             font-family: 'Book Antiqua', Georgia, serif;
         }
-        
+
         #contenido-respaldo .decoracion {
             font-size: clamp(40px, 8vw, 70px);
             margin-bottom: 20px;
         }
+
     </style>
 </head>
+
 <body>
 
     <!-- ===== SOBRE CON EFECTO DE APERTURA ===== -->
     <div id="contenedor-sobre" onclick="abrirSobre()">
-        
-        <!-- Sobre base (fondo) -->
+
+        <!-- Sobre base -->
         <div id="sobre-base"></div>
-        
+
         <!-- Solapa superior -->
         <div id="solapa-superior"></div>
-        
-        <!-- Flecha "TOCA PARA ABRIR" (aparece después de 7 segundos) -->
+
+        <!-- TOCA PARA ABRIR -->
         <div class="retraso-aparicion">
-            <span> TOCA PARA ABRIR </span>
-            <lottie-player 
-                src="Arrow.json" 
-                background="transparent" 
-                speed="1" 
-                loop 
+
+            <span>TOCA PARA ABRIR</span>
+
+            <lottie-player
+                src="Arrow.json"
+                background="transparent"
+                speed="1"
+                loop
                 autoplay>
             </lottie-player>
+
         </div>
-        
+
     </div>
 
-    <!-- ===== CONTENIDO DE RESPALDO (aparece cuando el sobre se oculta) ===== -->
+
+    <!-- ===== CONTENIDO DE RESPALDO ===== -->
     <div id="contenido-respaldo">
+
         <div class="decoracion">💍</div>
+
         <h1>¡Bienvenidos!</h1>
+
         <p>
             Gracias por ser parte de este momento tan especial.<br>
             Los esperamos con mucha alegría.
         </p>
+
         <p style="margin-top: 30px; font-size: clamp(14px, 2vw, 18px); opacity: 0.7;">
             🕊️ 28 de Noviembre, 2026
         </p>
+
     </div>
+
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
+
         function abrirSobre() {
-            const contenedor = document.getElementById('contenedor-sobre');
-            const respaldo = document.getElementById('contenido-respaldo');
-            
-            // Si ya está abierto u oculto, no hacer nada
-            if (contenedor.classList.contains('abierto') || contenedor.classList.contains('oculto')) {
+
+            const contenedor =
+                document.getElementById('contenedor-sobre');
+
+            const respaldo =
+                document.getElementById('contenido-respaldo');
+
+
+            /* Evitar que se active varias veces */
+            if (
+                contenedor.classList.contains('abierto') ||
+                contenedor.classList.contains('oculto')
+            ) {
                 return;
             }
-            
-            // Agregar clase "abierto" para activar la animación
+
+
+            /* Abrir el sobre hacia afuera */
             contenedor.classList.add('abierto');
-            
-            // Después de 2.5 segundos, ocultar el sobre y mostrar el contenido
+
+
+            /*
+            Después de terminar aproximadamente la apertura,
+            ocultamos el sobre y mostramos el contenido.
+            */
             setTimeout(() => {
+
                 contenedor.classList.add('oculto');
-                // Mostrar el contenido de respaldo
+
                 respaldo.classList.add('visible');
-            }, 1000);
+
+            }, 2200);
+
         }
-        
+
+
         console.log('✅ Sobre listo - Haz clic para abrirlo');
+
     </script>
 
 </body>
